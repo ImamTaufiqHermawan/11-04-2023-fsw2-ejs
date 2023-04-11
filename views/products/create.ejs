@@ -1,0 +1,15 @@
+<%- include("../partials/head") %>
+
+<body>
+    <h1>Input Data Product Baru</h1>
+    <form action="/products" method="POST">
+        <label for="">name</label>
+        <input type="text" name="name" placeholder="buku gambar"><br>
+        <label for="">price</label>
+        <input type="text" name="price" placeholder="10000"><br>
+        <label for="">stock</label>
+        <input type="text" name="stock" placeholder="10"><br>
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

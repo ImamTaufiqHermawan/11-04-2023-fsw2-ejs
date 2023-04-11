@@ -1,0 +1,25 @@
+<%- include("../partials/head") %>
+
+    <body>
+        <h1>Tabel produk fsw-2</h1>
+        <table>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <% products.map((product)=> { %>
+                <tr>
+                    <td><%= product.id %></td>
+                    <td><%= product.name %></td>
+                    <td><%= product.price %></td>
+                    <td><%= product.stock %></td>
+                </tr>
+                <% }) %>
+        </table>
+
+        <a href="/admin/product/create">
+            <button>create product baru</button>
+        </a>
+    </body>
+
+    </html>
