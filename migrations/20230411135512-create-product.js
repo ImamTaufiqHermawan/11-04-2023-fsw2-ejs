@@ -18,6 +18,12 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER
       },
+      size: {
+        type: Sequelize.STRING
+      },
+      imgUrl: {
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

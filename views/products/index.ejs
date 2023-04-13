@@ -7,12 +7,22 @@
             <th>Name</th>
             <th>Price</th>
             <th>Stock</th>
+            <th>Size</th>
+            <th>Picture</th>
+            <th>Action</th>
             <% products.map((product)=> { %>
                 <tr>
                     <td><%= product.id %></td>
                     <td><%= product.name %></td>
                     <td><%= product.price %></td>
                     <td><%= product.stock %></td>
+                    <td><%= product.size %></td>
+                    <td><%= product.imgUrl %></td>
+                    <td>
+                        <a href="/admin/product/edit/<%= product.id %>">
+                            <button>Edit</button>
+                        </a>
+                    </td>
                 </tr>
                 <% }) %>
         </table>

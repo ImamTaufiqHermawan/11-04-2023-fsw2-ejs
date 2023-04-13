@@ -29,10 +29,9 @@ app.get('/admin/product', async (req, res) => {
     const products = await product.findAll();
 
     // proses akhir = response yg render ejs file kalian
-    // res.render('products/index', {
-    //     products
-    // })
-    res.send(products)
+    res.render('products/index', {
+        products
+    })
 })
 
 // ini utk render page create product
@@ -42,20 +41,55 @@ app.get('/admin/product/create', (req, res) => {
 
 // ini untuk create product baru 
 app.post('/products', (req, res) => {
-    console.log(request)
     // request body => req.body.name
-    const { name, price, stock } = request.body
-    
+    const { name, price, stock } = req.body
+
     // proses insert atau create data yg dari request body ke DB/tabel 
     // pakai sequelize method create utk proses data baru ke table/model nya
     product.create({
         name,
         price,
-        stock
+        stock,
+        size: req.body.size
     })
 
     // response redirect page
     res.redirect(201, "/admin/product")
+})
+
+// ini utk render page edit product
+app.get('/admin/product/edit/:id', async (req, res) => {
+    // proses ambil detail product sesuai id yg di params
+    const data = await product.findByPk(req.params.id)
+    const productDetail = data.dataValues
+    res.render("products/update", {
+        productDetail,
+        sizeOptions: ['small', 'medium', 'large']
+    })
+})
+
+// ini untuk update product 
+app.post('/products/edit/:id', (req, res) => {
+    // req.params.id
+    // request body => req.body.name
+    const { name, price, stock } = req.body
+    const id = req.params.id
+
+    // proses insert atau create data yg dari request body ke DB/tabel 
+    // pakai sequelize method create utk proses data baru ke table/model nya
+    product.update({
+        name,
+        price,
+        stock,
+        size: req.body.size
+    }, {
+        where: {
+            id
+        }
+    })
+
+    // response redirect page
+    res.redirect(200, "/admin/product")
 })
 
 app.listen(PORT, () => {
