@@ -1,6 +1,7 @@
 // import atau panggil package2 yg kita mau pakai di aplikasi kita
 const express = require('express');
 const path = require('path');
+const { Op } = require('sequelize');
 
 // manggil models/table disini
 const { product } = require('./models');
@@ -25,8 +26,26 @@ app.get('/', (req, res) => {
 
 // ini untuk page lihat semua produk dari database
 app.get('/admin/product', async (req, res) => {
-    // get data dari database pake sequelize method findAll
-    const products = await product.findAll();
+    let products;
+
+    console.log(req.params)
+    console.log(req.query)
+
+    if (req.query.filter) {
+        products = await product.findAll({
+            where: {
+                size: {
+                    [Op.substring]: req.query.filter
+                }
+            },
+            order: [['id', 'ASC']]
+        });
+    } else {
+        // get data dari database pake sequelize method findAll
+        products = await product.findAll({
+            order: [['price', 'DESC']]
+        });
+    }
 
     // proses akhir = response yg render ejs file kalian
     res.render('products/index', {
@@ -89,6 +108,18 @@ app.post('/products/edit/:id', (req, res) => {
     })
 
     // response redirect page
+    res.redirect(200, "/admin/product")
+})
+
+// delete produk
+app.get('/products/delete/:id', async (req, res) => {
+    const id = req.params.id
+    product.destroy({
+        where: {
+            id
+        }
+    })
+
     res.redirect(200, "/admin/product")
 })
 

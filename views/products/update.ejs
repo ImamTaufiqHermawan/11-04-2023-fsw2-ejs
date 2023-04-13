@@ -12,7 +12,7 @@
         <label for="">size</label>
         <select name="size" id="">
             <% sizeOptions.map((size) => { %>
-                <option value="<%= size %>"><%= size %></option> 
+                <option value="<%= size %>" <%  if(size == productDetail.size){ %> selected <% } %> ><%= size %></option> 
             <% }) %>
         </select><br>
         <button type="submit">Edit</button>
