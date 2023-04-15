@@ -24,12 +24,24 @@
             <th>Action</th>
             <% products.map((product)=> { %>
                 <tr>
-                    <td><%= product.id %></td>
-                    <td><%= product.name %></td>
-                    <td><%= product.price %></td>
-                    <td><%= product.stock %></td>
-                    <td><%= product.size %></td>
-                    <td><%= product.imgUrl %></td>
+                    <td>
+                        <%= product.id %>
+                    </td>
+                    <td>
+                        <%= product.name %>
+                    </td>
+                    <td>
+                        <%= product.price %>
+                    </td>
+                    <td>
+                        <%= product.stock %>
+                    </td>
+                    <td>
+                        <%= product.size %>
+                    </td>
+                    <td>
+                        <img src="<%= product.imgUrl %>" alt="product image" style="width: 300px; height: 100px;">
+                    </td>
                     <td>
                         <a href="/admin/product/edit/<%= product.id %>">
                             <button>Edit</button>

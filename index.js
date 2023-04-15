@@ -6,6 +6,10 @@ const { Op } = require('sequelize');
 // manggil models/table disini
 const { product } = require('./models');
 
+// yang membantu proses upload file
+const imagekit = require('./lib/imagekit');
+const upload = require('./middleware/uploader');
+
 // framework express = framework utk http server
 const app = express();
 const PORT = 3000;
@@ -59,17 +63,32 @@ app.get('/admin/product/create', (req, res) => {
 })
 
 // ini untuk create product baru 
-app.post('/products', (req, res) => {
+app.post('/products', upload.single('image'), async (req, res) => {
     // request body => req.body.name
     const { name, price, stock } = req.body
+    const file = req.file
+
+    console.log(file)
+
+    // untuk dapat extension file
+    // image.jpg => jpg itu extension nya
+    const split = file.originalname.split('.');
+    const ext = split[split.length - 1];
+
+    // proses upload file ke imagekit
+    const img = await imagekit.upload({
+        file: file.buffer,
+        fileName: `IMG-${Date.now()}.${ext}`
+    })
 
     // proses insert atau create data yg dari request body ke DB/tabel 
     // pakai sequelize method create utk proses data baru ke table/model nya
-    product.create({
+    await product.create({
         name,
         price,
         stock,
-        size: req.body.size
+        size: req.body.size,
+        imgUrl: img.url
     })
 
     // response redirect page
